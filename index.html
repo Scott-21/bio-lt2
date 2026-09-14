@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cell Biology Study Hub — Modules 6–9</title>
+<style>
+  :root{
+    --bg:#f6f8fb; --card:#ffffff; --ink:#2b3445; --soft:#5c6b82;
+    --accent:#4f7cff; --accent2:#22b8a6; --warn:#e07856;
+    --line:#e6ebf3; --chip:#eef3ff; --chip2:#e6faf6; --chip3:#fdeee8;
+    --radius:16px; --shadow:0 4px 18px rgba(43,52,69,.07);
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{font-family:"Segoe UI",system-ui,-apple-system,sans-serif; background:var(--bg); color:var(--ink); line-height:1.65;}
+  /* ---------- layout ---------- */
+  .layout{display:flex; min-height:100vh;}
+  nav.sidebar{width:250px; position:sticky; top:0; height:100vh; background:var(--card); border-right:1px solid var(--line); padding:28px 18px; overflow-y:auto; flex-shrink:0;}
+  nav.sidebar h1{font-size:1.15rem; margin-bottom:4px;}
+  nav.sidebar .sub{font-size:.8rem; color:var(--soft); margin-bottom:22px;}
+  nav.sidebar a{display:block; padding:9px 12px; border-radius:10px; color:var(--soft); text-decoration:none; font-size:.9rem; margin-bottom:3px; transition:.15s;}
+  nav.sidebar a:hover{background:var(--chip); color:var(--accent);}
+  nav.sidebar a.active{background:var(--chip); color:var(--accent); font-weight:600;}
+  main{flex:1; padding:40px 48px 100px; max-width:1000px;}
+  @media(max-width:860px){ nav.sidebar{display:none;} main{padding:24px 18px 80px;} }
+  /* ---------- hero ---------- */
+  .hero{background:linear-gradient(120deg,#eef3ff,#e6faf6); border:1px solid var(--line); border-radius:var(--radius); padding:34px 34px; margin-bottom:34px; box-shadow:var(--shadow);}
+  .hero h2{font-size:1.7rem; margin-bottom:8px;}
+  .hero p{color:var(--soft); max-width:640px;}
+  .badges{display:flex; flex-wrap:wrap; gap:8px; margin-top:16px;}
+  .badge{background:#fff; border:1px solid var(--line); border-radius:999px; padding:5px 13px; font-size:.78rem; color:var(--soft);}
+  /* ---------- sections ---------- */
+  section{margin-bottom:52px;}
+  section>h2{font-size:1.45rem; margin-bottom:6px; display:flex; align-items:center; gap:10px;}
+  section>h2 .num{background:var(--accent); color:#fff; width:34px; height:34px; border-radius:10px; display:inline-flex; align-items:center; justify-content:center; font-size:.95rem; flex-shrink:0;}
+  .lead{color:var(--soft); margin-bottom:20px; max-width:700px;}
+  .grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:16px;}
+  .card{background:var(--card); border:1px solid var(--line); border-radius:var(--radius); padding:20px 22px; box-shadow:var(--shadow);}
+  .card h3{font-size:1.02rem; margin-bottom:10px; color:var(--ink);}
+  .card ul{margin-left:18px; font-size:.9rem; color:var(--soft);}
+  .card li{margin-bottom:6px;}
+  .card li strong{color:var(--ink);}
+  /* tables */
+  .tblwrap{overflow-x:auto; background:var(--card); border:1px solid var(--line); border-radius:var(--radius); box-shadow:var(--shadow); margin-top:14px;}
+  table{width:100%; border-collapse:collapse; font-size:.88rem;}
+  th{background:var(--chip); text-align:left; padding:11px 14px; color:var(--accent); font-weight:600;}
+  td{padding:10px 14px; border-top:1px solid var(--line); color:var(--soft); vertical-align:top;}
+  td strong{color:var(--ink);}
+  tr:nth-child(even) td{background:#fbfcfe;}
+  /* callouts */
+  .callout{border-radius:var(--radius); padding:16px 20px; margin:16px 0; font-size:.9rem; border:1px solid var(--line);}
+  .callout.trap{background:var(--chip3); border-color:#f5d4c6;}
+  .callout.tip{background:var(--chip2); border-color:#c2ece4;}
+  .callout.key{background:var(--chip); border-color:#d4e0ff;}
+  .callout b.tag{display:inline-block; font-size:.72rem; text-transform:uppercase; letter-spacing:.06em; padding:2px 9px; border-radius:999px; margin-bottom:6px; color:#fff;}
+  .callout.trap b.tag{background:var(--warn);}
+  .callout.tip b.tag{background:var(--accent2);}
+  .callout.key b.tag{background:var(--accent);}
+  /* accordions */
+  details{background:var(--card); border:1px solid var(--line); border-radius:12px; margin-bottom:10px; box-shadow:var(--shadow);}
+  details summary{cursor:pointer; padding:14px 18px; font-weight:600; font-size:.93rem; list-style:none; display:flex; justify-content:space-between; align-items:center;}
+  details summary::after{content:"+"; color:var(--accent); font-size:1.2rem;}
+  details[open] summary::after{content:"–";}
+  details .body{padding:0 18px 16px; font-size:.88rem; color:var(--soft);}
+  details .body ul{margin-left:18px;}
+  /* ---------- flashcards ---------- */
+  .fc-grid{display:grid; grid-template-columns:repeat(auto-fill,minmax(230px,1fr)); gap:14px; margin-top:8px;}
+  .flashcard{perspective:900px; height:170px; cursor:pointer;}
+  .flashcard .inner{position:relative; width:100%; height:100%; transition:transform .5s; transform-style:preserve-3d;}
+  .flashcard.flipped .inner{transform:rotateY(180deg);}
+  .face{position:absolute; inset:0; backface-visibility:hidden; border-radius:14px; display:flex; align-items:center; justify-content:center; padding:18px; text-align:center; font-size:.88rem; box-shadow:var(--shadow);}
+  .face.front{background:var(--card); border:1px solid var(--line); color:var(--ink); font-weight:600;}
+  .face.back{background:linear-gradient(135deg,#4f7cff,#22b8a6); color:#fff; transform:rotateY(180deg);}
+  .hint{font-size:.78rem; color:var(--soft); margin-top:10px;}
+  /* ---------- quiz ---------- */
+  .quiz-card{background:var(--card); border:1px solid var(--line); border-radius:var(--radius); padding:22px 24px; box-shadow:var(--shadow); margin-bottom:16px;}
+  .quiz-card .q{font-weight:600; margin-bottom:14px;}
+  .opt{display:block; width:100%; text-align:left; padding:10px 14px; margin-bottom:8px; border-radius:10px; border:1px solid var(--line); background:#fbfcfe; font-size:.88rem; cursor:pointer; transition:.15s; color:var(--ink);}
+  .opt:hover:not(:disabled){border-color:var(--accent); background:var(--chip);}
+  .opt:disabled{cursor:default; opacity:.85;}
+  .opt.correct{background:#e6faf6; border-color:var(--accent2); font-weight:600;}
+  .opt.wrong{background:var(--chip3); border-color:var(--warn);}
+  .explain{display:none; margin-top:10px; font-size:.85rem; background:var(--chip); border-radius:10px; padding:10px 14px; color:var(--soft);}
+  .explain.show{display:block;}
+  .scorebar{position:sticky; bottom:14px; background:#2b3445; color:#fff; border-radius:12px; padding:12px 20px; display:flex; justify-content:space-between; align-items:center; font-size:.88rem; box-shadow:0 6px 20px rgba(0,0,0,.25); margin-top:20px;}
+  .scorebar button{background:var(--accent); color:#fff; border:none; border-radius:8px; padding:8px 16px; font-size:.82rem; cursor:pointer;}
+  /* cheat sheet */
+  .cheat li{margin-bottom:9px; font-size:.9rem; color:var(--soft);}
+  .cheat li strong{color:var(--ink);}
+  footer{color:var(--soft); font-size:.82rem; text-align:center; padding-top:20px; border-top:1px solid var(--line); margin-top:20px;}
+</style>
+<base target="_blank">
+</head>
+<body>
+<div class="layout">
+<nav class="sidebar">
+  <h1>🧬 Cell Bio Hub</h1>
+  <div class="sub">Modules 6–9 · Exam Prep</div>
+  <a href="#home" class="active">🏠 Home</a>
+  <a href="#m6">📗 M6 · Cell Cycle</a>
+  <a href="#m7">📘 M7 · Chromosomes</a>
+  <a href="#m8">📙 M8 · Meiosis</a>
+  <a href="#m9">📕 M9 · Accidents</a>
+  <a href="#flash">🃏 Flashcards</a>
+  <a href="#quiz">✅ Practice Quiz</a>
+  <a href="#cheat">⚡ Cheat Sheet</a>
+</nav>
+
+<main>
+  <!-- HERO -->
+  <section id="home">
+    <div class="hero">
+      <h2>Welcome to your Cell Biology Study Hub 🌿</h2>
+      <p>A calm, light space to master the cell cycle, chromosomes, meiosis, and what happens when cell division goes wrong. Take it one module at a time — then test yourself with flashcards and a quiz.</p>
+      <div class="badges">
+        <span class="badge">🎯 4 modules</span>
+        <span class="badge">🃏 12 flashcards</span>
+        <span class="badge">✅ 15 quiz questions</span>
+        <span class="badge">⚡ 1-page recap</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- MODULE 6 -->
+  <section id="m6">
+    <h2><span class="num">6</span> The Cell Cycle</h2>
+    <p class="lead">The ordered series of events: <strong>grow → copy DNA → prepare → divide</strong>. Daughter cells are genetically identical to the parent.</p>
+    <div class="grid">
+      <div class="card"><h3>🟣 G1 — "Growth"</h3><ul><li>Cell grows, metabolically active</li><li>Organelles copied</li><li><strong>NO DNA replication</strong></li></ul></div>
+      <div class="card"><h3>🟢 S — "Synthesis"</h3><ul><li><strong>DNA is replicated</strong></li><li>1 chromosome → 2 sister chromatids joined at the <strong>centromere</strong></li><li>Centrosome duplicated (animal cells)</li></ul></div>
+      <div class="card"><h3>🔵 G2 — "Get Ready"</h3><ul><li>Final growth & preparation</li><li>Checks conditions</li><li>2 centrosomes present</li></ul></div>
+      <div class="card"><h3>🟡 G0 — Exit</h3><ul><li>Metabolically active, but no division</li><li>Quiescence (reversible), terminal differentiation & senescence (irreversible)</li></ul></div>
+    </div>
+    <div class="callout trap"><b class="tag">⚠️ Exam trap</b><br><strong>DNA replication doubles the DNA — NOT the chromosome number.</strong> Sister chromatids still share one centromere, so a cell entering mitosis is still "46 chromosomes" worth of count.</div>
+    <h3 style="margin:22px 0 4px;">Mitosis — P → PM → M → A → T</h3>
+    <div class="tblwrap"><table>
+      <tr><th>Stage</th><th>What happens</th><th>Clue</th></tr>
+      <tr><td><strong>Prophase</strong></td><td>Chromatin condenses; centrosomes move to poles; spindle forms; nucleolus disappears</td><td>Condense</td></tr>
+      <tr><td><strong>Prometaphase</strong></td><td>Nuclear envelope breaks down; spindle attaches at <strong>kinetochore</strong></td><td>Poke the membrane</td></tr>
+      <tr><td><strong>Metaphase</strong></td><td>Chromosomes line up at the <strong>metaphase plate</strong></td><td>Middle</td></tr>
+      <tr><td><strong>Anaphase</strong></td><td><strong>Sister chromatids separate</strong> toward opposite poles</td><td>Apart</td></tr>
+      <tr><td><strong>Telophase</strong></td><td>Nuclear envelopes reform → <strong>two identical nuclei</strong></td><td>Two nuclei</td></tr>
+    </table></div>
+    <div class="callout tip"><b class="tag">💡 Remember</b><br>Cytokinesis: <strong>animal</strong> = contractile ring → cleavage furrow (actin + myosin) · <strong>plant</strong> = cell plate from Golgi vesicles → middle lamella. Interphase = ~90% of the cycle and it is <em>not</em> a resting phase!</div>
+  </section>
+
+  <!-- MODULE 7 -->
+  <section id="m7">
+    <h2><span class="num">7</span> Chromosome Structure & Karyotyping</h2>
+    <p class="lead">~2 meters of DNA fits into a nucleus under 10 μm thanks to packaging with histone proteins.</p>
+    <div class="callout key"><b class="tag">📦 Packaging order</b><br><strong>DNA → Nucleosome → 30-nm fiber → 300-nm fiber → Chromatid → Metaphase chromosome</strong> · A nucleosome = DNA wrapped around histones · Chromatin = DNA + associated proteins</div>
+    <p class="lead" style="margin-top:18px;"><strong>Karyotyping</strong> = sorting + arranging + identifying chromosomes by number, size, shape, centromere position, and banding. Humans: <strong>46 = 22 autosome pairs + 1 sex pair</strong>.</p>
+    <div class="card"><h3>🔍 Reading a karyotype — in this order</h3><ul><li><strong>1. NUMBER</strong> — 46? 47? 45?</li><li>2. Pairing · 3. Size · 4. Structure/centromere position</li><li>5. Sex chromosomes — XX or XY?</li></ul></div>
+    <div class="callout trap"><b class="tag">⚠️ Exam trap</b><br>Given an unknown karyotype, examine <strong>the NUMBER of chromosomes first</strong>. 45,X → Turner (female, missing X) · 47,XXY → Klinefelter (extra X).</div>
+  </section>
+
+  <!-- MODULE 8 -->
+  <section id="m8">
+    <h2><span class="num">8</span> Sexual Life Cycles & Meiosis</h2>
+    <p class="lead">Meiosis makes haploid (n) gametes from a diploid (2n) cell: <strong>2n = 46 → n = 23</strong>, and fertilization restores 46. One DNA replication, two divisions, four haploid cells.</p>
+    <div class="tblwrap"><table>
+      <tr><th>Feature</th><th>Mitosis</th><th>Meiosis</th></tr>
+      <tr><td>Cells / divisions</td><td>Somatic · 1</td><td>Germ-line · 2</td></tr>
+      <tr><td>Start → end chromosome #</td><td>2n → 2n</td><td><strong>2n → n (reductional)</strong></td></tr>
+      <tr><td>Daughter cells</td><td>2</td><td><strong>4</strong></td></tr>
+      <tr><td>Crossing-over</td><td>Absent</td><td><strong>Prophase I</strong></td></tr>
+      <tr><td>Role</td><td>Growth & repair</td><td>Sexual reproduction</td></tr>
+    </table></div>
+    <h3 style="margin:22px 0 4px;">Prophase I — the star of the show ✨</h3>
+    <p class="lead">Synapsis → tetrad → crossing-over → chiasmata. Five substages:</p>
+    <div class="tblwrap"><table>
+      <tr><th>Substage</th><th>Event</th></tr>
+      <tr><td><strong>Leptotene</strong></td><td>Chromosomes become visible</td></tr>
+      <tr><td><strong>Zygotene</strong></td><td>Homologues pair (synaptonemal complex forms)</td></tr>
+      <tr><td><strong>Pachytene</strong></td><td>⭐ <strong>Crossing-over occurs</strong> · tetrad present</td></tr>
+      <tr><td><strong>Diplotene</strong></td><td>Complex disintegrates · chiasmata visible</td></tr>
+      <tr><td><strong>Diakinesis</strong></td><td>Max condensation · nucleus breaks down · spindle begins</td></tr>
+    </table></div>
+    <div class="callout key"><b class="tag">🎯 The critical distinction</b><br><strong>Meiosis I = homologous chromosomes separate</strong> (reductional) · <strong>Meiosis II = sister chromatids separate</strong> (equational, like mitosis). Metaphase I = independent assortment → genetic diversity.</div>
+    <h3 style="margin:22px 0 4px;">Spermatogenesis vs. Oogenesis</h3>
+    <div class="tblwrap"><table>
+      <tr><th>Feature</th><th>Spermatogenesis</th><th>Oogenesis</th></tr>
+      <tr><td>Location</td><td>Testes (seminiferous tubules)</td><td>Ovaries</td></tr>
+      <tr><td>Products</td><td><strong>4 functional sperm</strong></td><td><strong>1 egg + 3 polar bodies</strong></td></tr>
+      <tr><td>Cytokinesis</td><td>Equal</td><td>Unequal (oocyte keeps cytoplasm)</td></tr>
+      <tr><td>Timing</td><td>Starts at puberty, lifelong</td><td>Starts before birth</td></tr>
+      <tr><td>Meiosis II</td><td>Proceeds</td><td><strong>Completes only at fertilization</strong></td></tr>
+    </table></div>
+  </section>
+
+  <!-- MODULE 9 -->
+  <section id="m9">
+    <h2><span class="num">9</span> Accidents in Cell Division</h2>
+    <p class="lead">Three big ways things go wrong: loss of cell-cycle control (cancer), separation errors (nondisjunction), and breakage (structural aberrations).</p>
+    <div class="grid">
+      <div class="card"><h3>🚗 Proto-oncogene vs. Tumor suppressor</h3><ul><li>Proto-oncogene = <strong>accelerator</strong> (normal growth) → mutation = stuck-on <strong>oncogene</strong></li><li>Tumor suppressor = <strong>brake</strong> → mutation = brakes fail</li></ul></div>
+      <div class="card"><h3>🍞 Benign vs. Malignant</h3><ul><li><strong>Benign</strong>: stays at original site, not cancerous</li><li><strong>Malignant</strong>: invades + <strong>metastasizes</strong> (spreads to distant sites)</li></ul></div>
+    </div>
+    <div class="callout tip"><b class="tag">💡 Why cancer is hard to treat</b><br>Tumors are <strong>genetically complex</strong> — different mutations → different cell populations → different treatment responses. Modern fix: sequence the tumor → personalized therapy.</div>
+    <h3 style="margin:22px 0 4px;">Nondisjunction → Aneuploidy</h3>
+    <p class="lead">Failure to separate: Meiosis I error = homologues fail to separate · Meiosis II/mitosis error = sister chromatids fail to separate. Results in <strong>monosomy (2n−1)</strong> or <strong>trisomy (2n+1)</strong>.</p>
+    <div class="tblwrap"><table>
+      <tr><th>Condition</th><th>Karyotype</th><th>Type</th></tr>
+      <tr><td><strong>Down syndrome</strong></td><td>47,+21</td><td>Autosomal trisomy</td></tr>
+      <tr><td><strong>Edwards syndrome</strong></td><td>47,+18</td><td>Autosomal trisomy</td></tr>
+      <tr><td><strong>Patau syndrome</strong></td><td>47,+13</td><td>Autosomal trisomy</td></tr>
+      <tr><td><strong>Turner</strong></td><td>45,X</td><td><strong>Monosomy X</strong></td></tr>
+      <tr><td><strong>Klinefelter</strong></td><td>47,XXY</td><td>Extra X</td></tr>
+      <tr><td><strong>Jacobs</strong></td><td>47,XYY</td><td>Extra Y</td></tr>
+      <tr><td><strong>Triple X</strong></td><td>47,XXX</td><td>Extra X</td></tr>
+    </table></div>
+    <div class="callout key"><b class="tag">🧠 Memory aid</b><br><strong>13 → Patau · 18 → Edwards · 21 → Down</strong></div>
+    <h3 style="margin:22px 0 4px;">Structural aberrations (number problem vs. material problem)</h3>
+    <details open><summary>✂️ Deletion</summary><div class="body">A segment is lost. <strong>Cri-du-chat syndrome</strong> = deletion of the <strong>short arm (p) of chromosome 5</strong> → high-pitched cat-like cry, small head, wide-set eyes, developmental delay.</div></details>
+    <details><summary>🔀 Translocation</summary><div class="body">Segment moves to a non-homologous chromosome. <strong>Philadelphia chromosome, t(9;22)</strong> → <strong>BCR::ABL1 fusion gene</strong> → chronic myelogenous leukemia (CML). The issue is the <em>arrangement</em> of genetic material, not the number.</div></details>
+    <details><summary>🔗 Robertsonian translocation (Down carrier)</summary><div class="body">Part/all of chromosome <strong>21 fuses with chromosome 14</strong>. Carrier is <strong>phenotypically normal (balanced)</strong> but can produce unbalanced gametes → increased risk of a child with Down syndrome.</div></details>
+  </section>
+
+  <!-- FLASHCARDS -->
+  <section id="flash">
+    <h2><span class="num">🃏</span> Flashcards</h2>
+    <p class="lead">Click any card to flip it. Test yourself before peeking!</p>
+    <div class="fc-grid" id="fcGrid"></div>
+    <p class="hint">Tip: say the answer out loud before flipping — active recall beats re-reading.</p>
+  </section>
+
+  <!-- QUIZ -->
+  <section id="quiz">
+    <h2><span class="num">✅</span> Practice Quiz</h2>
+    <p class="lead">15 questions in exam style. Answers and explanations appear after you pick — the score bar tracks you at the bottom.</p>
+    <div id="quizBox"></div>
+    <div class="scorebar"><span id="scoreText">Score: 0 / 0 answered</span><button onclick="resetQuiz()">Reset quiz</button></div>
+  </section>
+
+  <!-- CHEAT SHEET -->
+  <section id="cheat">
+    <h2><span class="num">⚡</span> One-Page Cheat Sheet</h2>
+    <div class="card cheat"><ul>
+      <li><strong>Cell cycle:</strong> G1 grow → S copy DNA → G2 get ready → M divide · G0 = exit (still metabolically active)</li>
+      <li><strong>Mitosis:</strong> P condense → PM envelope breaks → M middle → A apart (sister chromatids) → T two nuclei</li>
+      <li><strong>Cytokinesis:</strong> animal = cleavage furrow (actin+myosin) · plant = cell plate → middle lamella</li>
+      <li><strong>Packaging:</strong> DNA → nucleosome (histones) → 30-nm → 300-nm → chromatid → metaphase chromosome</li>
+      <li><strong>Karyotype:</strong> 46 = 22 pairs + sex pair · check NUMBER first</li>
+      <li><strong>Meiosis:</strong> 1 replication, 2 divisions, 4 haploid cells · crossing-over = pachytene (Prophase I)</li>
+      <li><strong>Meiosis I = homologues separate · Meiosis II = sister chromatids separate</strong></li>
+      <li><strong>Sperm = 4 products, equal, starts puberty · Egg = 1 product + 3 polar bodies, unequal, Meiosis II finishes at fertilization</strong></li>
+      <li><strong>Cancer:</strong> proto-oncogene = accelerator · tumor suppressor = brake · benign stays · malignant metastasizes</li>
+      <li><strong>Nondisjunction → aneuploidy:</strong> monosomy 2n−1 / trisomy 2n+1 · 13 Patau · 18 Edwards · 21 Down</li>
+      <li><strong>Sex chromosome:</strong> 45,X Turner · 47,XXY Klinefelter · 47,XYY Jacobs · 47,XXX Triple X</li>
+      <li><strong>Structural:</strong> deletion = Cri-du-chat (5p−) · translocation = Philadelphia t(9;22) → CML · Robertsonian 21;14 = Down carrier</li>
+    </ul></div>
+    <footer>Made with 💙 for your exam tomorrow — you've got this! 🍀</footer>
+  </section>
+</main>
+</div>
+
+<script>
+/* ---------- active nav highlight ---------- */
+const links = document.querySelectorAll('nav.sidebar a');
+const secs = [...links].map(a => document.querySelector(a.getAttribute('href')));
+window.addEventListener('scroll', () => {
+  let cur = 0;
+  secs.forEach((s,i) => { if (s && s.getBoundingClientRect().top < 140) cur = i; });
+  links.forEach((a,i) => a.classList.toggle('active', i === cur));
+});
+
+/* ---------- flashcards ---------- */
+const cards = [
+  ["What phase is S phase, and what happens?","S = Synthesis — DNA is replicated; each chromosome becomes 2 sister chromatids joined at the centromere."],
+  ["Does DNA replication double the chromosome number?","NO — it doubles the DNA. Sister chromatids share one centromere, so chromosome count is unchanged."],
+  ["What happens in Anaphase I vs. Anaphase II?","Anaphase I: homologous chromosomes separate (reductional). Anaphase II: sister chromatids separate (equational)."],
+  ["At which substage does crossing-over occur?","PACHYTENE of Prophase I. Chiasmata become visible in diplotene."],
+  ["One primary spermatocyte produces ___?","Four functional sperm. One primary oocyte produces ONE egg + 3 polar bodies."],
+  ["When is Meiosis II completed in females?","Only upon FERTILIZATION of the secondary oocyte. Meiosis I products appear at ovulation."],
+  ["Proto-oncogene is to ___ as tumor-suppressor gene is to ___?","Accelerator : brake. Mutation = stuck accelerator OR failed brakes → cancer."],
+  ["Define metastasis.","Spread of cancer cells from the original site to other parts of the body (malignant tumors)."],
+  ["Karyotypes: Down, Edwards, Patau, Turner, Klinefelter?","Down 47,+21 · Edwards 47,+18 · Patau 47,+13 · Turner 45,X (monosomy) · Klinefelter 47,XXY."],
+  ["What is nondisjunction?","Failure of chromosomes to separate: Meiosis I = homologues fail · Meiosis II/mitosis = sister chromatids fail → aneuploidy."],
+  ["Cri-du-chat syndrome involves which chromosome?","Deletion of the short arm (p) of CHROMOSOME 5 → cat-like cry, small head, wide-set eyes."],
+  ["What is the Philadelphia chromosome?","Translocation t(9;22) creating the BCR::ABL1 fusion gene → chronic myelogenous leukemia (CML)."],
+];
+const fcGrid = document.getElementById('fcGrid');
+cards.forEach(c => {
+  const d = document.createElement('div');
+  d.className = 'flashcard';
+  d.innerHTML = '<div class="inner"><div class="face front">'+c[0]+'</div><div class="face back">'+c[1]+'</div></div>';
+  d.onclick = () => d.classList.toggle('flipped');
+  fcGrid.appendChild(d);
+});
+
+/* ---------- quiz ---------- */
+const quiz = [
+  {q:"DNA is replicated during which phase of the cell cycle?", o:["G1","S","G2","M"], a:1, e:"S = Synthesis phase. Each chromosome becomes two sister chromatids joined at the centromere."},
+  {q:"During which mitotic stage does the nuclear envelope break down?", o:["Prophase","Prometaphase","Metaphase","Telophase"], a:1, e:"Prometaphase — spindle fibers then attach to kinetochores and move chromosomes toward the middle."},
+  {q:"Plant cells divide their cytoplasm by forming a…", o:["cleavage furrow","contractile ring","cell plate","bud"], a:2, e:"Golgi vesicles fuse into a cell plate, which becomes the middle lamella of the new wall."},
+  {q:"Sister chromatids separate during…", o:["Anaphase I","Anaphase II","Metaphase I","Prophase I"], a:1, e:"Meiosis II is equational — like mitosis. Anaphase I separates HOMOLOGOUS chromosomes."},
+  {q:"Crossing-over occurs at which substage of Prophase I?", o:["Leptotene","Zygotene","Pachytene","Diakinesis"], a:2, e:"Pachytene — non-sister chromatids exchange DNA; chiasmata become visible later, in diplotene."},
+  {q:"How many functional gametes result from one round of oogenesis?", o:["4","3","2","1"], a:3, e:"One egg + 3 polar bodies that degenerate — cytokinesis is unequal."},
+  {q:"A 47,XXY karyotype indicates…", o:["Turner syndrome","Klinefelter syndrome","Jacobs syndrome","Triple X"], a:1, e:"Klinefelter = extra X chromosome. Turner is 45,X (monosomy X)."},
+  {q:"Monosomy is best described as…", o:["2n + 1","2n − 1","2n + 2","2n − 2"], a:1, e:"Monosomy = 2n − 1 (one chromosome missing, e.g., 45,X Turner). Trisomy = 2n + 1."},
+  {q:"The Philadelphia chromosome is associated with…", o:["Cri-du-chat syndrome","CML","Down syndrome","Edwards syndrome"], a:1, e:"t(9;22) translocation creates the BCR::ABL1 fusion gene → chronic myelogenous leukemia."},
+  {q:"Proto-oncogenes are best compared to…", o:["brakes","accelerators","checkpoints","spindles"], a:1, e:"Proto-oncogenes promote growth (accelerator); tumor suppressors inhibit division (brakes)."},
+  {q:"A tumor that remains at its original site and does not invade is…", o:["malignant","metastatic","benign","aneuploid"], a:2, e:"Benign tumors stay put. Malignant tumors invade and can metastasize."},
+  {q:"When examining an unknown karyotype, the FIRST thing to check is…", o:["banding pattern","centromere position","the number of chromosomes","sex chromosomes"], a:2, e:"Normal = 46; extra = 47; missing = 45 — the count guides everything else."},
+  {q:"A balanced Robertsonian translocation carrier (21;14) is usually…", o:["severely ill","phenotypically normal","always infertile","trisomic"], a:1, e:"No genetic material is lost/gained, so the carrier is normal — but gametes can be unbalanced, raising the risk of a child with Down syndrome."},
+  {q:"Cri-du-chat syndrome is caused by a deletion of…", o:["chromosome 21","chromosome 5's short arm","chromosome 22","the X chromosome"], a:1, e:"Deletion of the p (short) arm of chromosome 5 — named for the cat-like cry of affected infants."},
+  {q:"Independent assortment occurs during…", o:["Prophase II","Metaphase I","Anaphase II","Telophase II"], a:1, e:"Tetrads align randomly at the equatorial plate in Metaphase I → different allele combos in gametes."},
+];
+let answered = 0, correct = 0;
+const quizBox = document.getElementById('quizBox');
+quiz.forEach((item, qi) => {
+  const card = document.createElement('div');
+  card.className = 'quiz-card';
+  let html = '<div class="q">' + (qi+1) + '. ' + item.q + '</div>';
+  item.o.forEach((opt, oi) => {
+    html += '<button class="opt" data-q="'+qi+'" data-o="'+oi+'" onclick="pick(this)">'+opt+'</button>';
+  });
+  html += '<div class="explain" id="ex'+qi+'">💡 ' + item.e + '</div>';
+  card.innerHTML = html;
+  quizBox.appendChild(card);
+});
+function pick(btn){
+  const qi = +btn.dataset.q, oi = +btn.dataset.o;
+  const card = btn.parentElement;
+  if (card.dataset.done) return;
+  card.dataset.done = '1';
+  answered++;
+  const opts = card.querySelectorAll('.opt');
+  opts.forEach(o => o.disabled = true);
+  opts[quiz[qi].a].classList.add('correct');
+  if (oi === quiz[qi].a) { correct++; }
+  else { btn.classList.add('wrong'); }
+  document.getElementById('ex'+qi).classList.add('show');
+  document.getElementById('scoreText').textContent = 'Score: ' + correct + ' / ' + answered + ' answered';
+}
+function resetQuiz(){
+  answered = 0; correct = 0;
+  document.getElementById('scoreText').textContent = 'Score: 0 / 0 answered';
+  document.querySelectorAll('.quiz-card').forEach(c => {
+    delete c.dataset.done;
+    c.querySelectorAll('.opt').forEach(o => { o.disabled = false; o.classList.remove('correct','wrong'); });
+    c.querySelector('.explain').classList.remove('show');
+  });
+  document.getElementById('quiz').scrollIntoView({behavior:'smooth'});
+}
+</script>
+</body>
+</html>
